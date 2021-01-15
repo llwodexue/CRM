@@ -1,0 +1,116 @@
+html,
+body {
+    overflow: hidden;
+}
+
+/* footer */
+.footerBox {
+    font-size: 14px;
+    color: #fff;
+    height: 35px;
+    line-height: 35px;
+    background: #3a3d42;
+    text-align: center;
+}
+
+/* header */
+.headerBox {
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 52px;
+    line-height: 52px;
+    background: #3a3d42;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.headerBox .logo {
+    width: 18%;
+    text-align: center;
+    font-size: 20px;
+    /* 字符间距 */
+    letter-spacing: 3px;
+}
+
+.headerBox .baseBox {
+    width: 18%;
+    font-size: 16px;
+    text-align: right;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.headerBox .baseBox a {
+    margin: 0 5px;
+    text-decoration: underline;
+}
+
+.headerBox .navBox {
+    width: 56%;
+    display: flex;
+}
+
+.headerBox .navBox a {
+    margin-right: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    color: #ccc;
+    font-size: 18px;
+    border-bottom: 4px solid transparent;
+    transition: border-bottom-color 0.3s;
+}
+
+.headerBox .navBox a:hover,
+.headerBox .navBox a.active {
+    color: #fff;
+    border-bottom-color: #33aaff;
+}
+
+/* container */
+.container {
+    color: #fff;
+    display: flex;
+    overflow: hidden;
+}
+
+.iframeBox {
+    width: 82%;
+    border: none;
+}
+
+.menuBox {
+    padding: 20px;
+    box-sizing: border-box;
+    width: 18%;
+    background: #50545e;
+    /* 禁止选中 */
+    user-select: none;
+}
+
+.menuBox .itemBox {
+    margin-bottom: 10px;
+}
+
+.menuBox .itemBox h3 {
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.menuBox .itemBox h3 i {
+    margin-right: 4px;
+}
+
+.menuBox .itemBox .item {
+    padding-left: 25px;
+}
+
+.menuBox .itemBox .item a {
+    display: flex;
+    flex-direction: column;
+    line-height: 35px;
+    color: #ccc;
+    font-size: 16px;
+}

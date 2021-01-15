@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM登录</title>
+    <!-- title icon -->
+    <link rel="icon" href="./images/favicon-32x32-next.png">
+    <!-- reset css -->
+    <link rel="stylesheet" href="./css/reset.css">
+    <!-- iconfont -->
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+    <main class="mainBox">
+        <h1 class="title">CRM客户管理系统</h1>
+        <div class="loginBox">
+            <!-- 用户名 -->
+            <div class="form">
+                <i class="iconfont icon-user"></i>
+                <input type="text" class="userName" placeholder="请输入用户名/手机号/邮箱">
+            </div>
+            <!-- 密码 -->
+            <div class="form">
+                <i class="iconfont icon-mima"></i>
+                <input type="password" class="userPass" placeholder="请输入登录密码">
+                <i class="iconfont icon-chakan"></i>
+            </div>
+            <button class="submit">登录</button>
+        </div>
+    </main>
+    <footer class="footerBox">
+        <span>雪飞 © 2021</span>
+    </footer>
+
+    <script src="./dependences/jquery.min.js"></script>
+    <script src="./dependences/axios.min.js"></script>
+    <script src="./dependences/md5.min.js"></script>
+    <script src="./dependences/mock-min.js"></script>
+    <script src="./js/axios.defaults.js"></script>
+    <script src="./utils/utils.js"></script>
+    <script src="./mock/mock.js"></script>
+    <script src="./js/login.js"></script>
+</body>
+
+</html>
