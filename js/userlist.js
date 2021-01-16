@@ -8,11 +8,18 @@ let userListModule = (function () {
     let power = decodeURIComponent(localStorage.getItem("power"));
     // 校验权限
     let checkPower = () => {
-        if (!power.includes("userhandle")) {
-            $deleteAll.remove();
-            $th.first().remove();
-            $th.last().remove();
-        }
+        // 登录
+        return axios.get("/user/login").then((res, rej) => {
+            let { code } = res;
+            if (code !== 0) {
+                return rej();
+            }
+            if (!power.includes("userhandle")) {
+                $deleteAll.remove();
+                $th.first().remove();
+                $th.last().remove();
+            }
+        });
     };
 
     // 渲染下拉框
@@ -31,7 +38,7 @@ let userListModule = (function () {
     };
     // 存放随机生成的数据
     let dataArr = null;
-    let renderStr = (data) => {
+    let render = (data) => {
         let str = ``;
         data.forEach((item) => {
             let { id, name, sex, department, job, email, phone, desc } = item;
@@ -62,7 +69,9 @@ let userListModule = (function () {
             </td>
         </tr>`;
         });
-        return str;
+        $tbody.html(str);
+        // 每次重新渲染内容都会发生改变（input在内容区），需要重新对复选框进行绑定
+        checkBox();
     };
     // 渲染用户列表
     let renderUser = () => {
@@ -70,8 +79,7 @@ let userListModule = (function () {
             let { code, data } = res;
             if (code == 0) {
                 dataArr = data;
-                let str = renderStr(data);
-                $tbody.html(str);
+                render(data);
             } else {
                 $tbody.html("");
             }
@@ -83,13 +91,11 @@ let userListModule = (function () {
         let search = $searchInp.val().trim();
         // 每次下拉框和搜索框发生改变时都重新赋值
         let newData = dataArr;
-        let str = ``;
         if (depart !== "0") {
             newData = newData.filter((item) => {
                 let { departmentId } = item;
                 return depart == departmentId;
             });
-            str = renderStr(newData);
         }
         if (search !== "") {
             newData = newData.filter((item) => {
@@ -100,12 +106,8 @@ let userListModule = (function () {
                     name.includes(search)
                 );
             });
-            str = renderStr(newData);
         }
-        if (depart === "0" && search === "") {
-            str = renderStr(dataArr);
-        }
-        $tbody.html(str);
+        render(newData);
     };
     // 下拉框发生更改
     let selectChange = () => {
@@ -135,7 +137,7 @@ let userListModule = (function () {
     // 删除接口
     let deleteItem = (userId) => {
         // userId "1"
-        axios.post("/user/delete", { userId }).then((res) => {
+        axios.get("/user/delete", { params: { userId } }).then((res) => {
             let { code } = res;
             if (code === 0) {
                 alert("删除成功", {
@@ -143,7 +145,7 @@ let userListModule = (function () {
                         dataArr = dataArr.filter((item) => {
                             return String(item.id) != userId;
                         });
-                        $tbody.html(renderStr(dataArr));
+                        render(dataArr);
                     },
                 });
                 return;
@@ -153,20 +155,21 @@ let userListModule = (function () {
     };
     // 批量删除接口
     let deleteItems = ($checked) => {
-        let userId = [];
+        let paramUser = [];
         $checked.each((index, item) => {
-            userId.push($(item).parent().parent().attr("data-id"));
+            paramUser.push($(item).parent().parent().attr("data-id"));
         });
-        // userId ["1", "2", "3"]
-        axios.post("/user/delete", { userId }).then((res) => {
+        // paramUser ["1", "2", "3"]
+        let userId = paramUser.join();
+        axios.get("/user/delete", { params: { userId } }).then((res) => {
             let { code } = res;
             if (code === 0) {
                 alert("批量删除成功", {
                     handled: () => {
                         dataArr = dataArr.filter((item) => {
-                            return !userId.includes(String(item.id));
+                            return !paramUser.includes(String(item.id));
                         });
-                        $tbody.html(renderStr(dataArr));
+                        render(dataArr);
                     },
                 });
                 return;
@@ -207,7 +210,7 @@ let userListModule = (function () {
         });
     };
 
-    // 渲染选框（全选/单选）
+    // 渲染复选框（全选/单选）
     let checkBox = () => {
         let allCheck = $th.find("input");
         let everyCheck = $tbody.find("input");
@@ -252,16 +255,16 @@ let userListModule = (function () {
 
     return {
         init() {
-            checkPower();
-            bindSelect().then(() => {
-                renderUser().then(() => {
-                    selectChange();
-                    searchChange();
-                    bindHandle();
-                    checkBox();
-                    bindDelete();
-                });
-            });
+            (async function () {
+                await checkPower();
+                await bindSelect();
+                await renderUser();
+                selectChange();
+                searchChange();
+                bindHandle();
+                checkBox();
+                bindDelete();
+            })();
         },
     };
 })();

@@ -6,18 +6,18 @@ params:
         let query = options.body;
         let user = [
             {
-                account: "管理员",
+                account: "admin",
                 password: "32d25170b469b57095ca269b",
                 power:
                     "userhandle|departhandle|jobhandle|departcustomer|allcustomer|resetpassword",
             },
             {
-                account: "经理",
+                account: "manager",
                 password: "32d25170b469b57095ca269b",
                 power: "userhandle|resetpassword",
             },
             {
-                account: "职员",
+                account: "officer",
                 password: "32d25170b469b57095ca269b",
                 power: "null",
             },
@@ -69,7 +69,7 @@ params: null*/
     Mock.mock("/user/signout", "get", mockData);
 })();
 
-/* 权限
+/* 侧边路由
 params: null*/
 (function () {
     let mockData = {
@@ -165,6 +165,23 @@ params: null*/
     Mock.mock("/department/list", "get", mockData);
 })();
 
+/* 职务列表
+params: null*/
+(function () {
+    let mockData = {
+        code: 0,
+        codeText: "OK",
+        data: [
+            { id: 1, name: "管理员", desc: "" },
+            { id: 2, name: "销售部经理", desc: "" },
+            { id: 3, name: "销售部员工", desc: "" },
+            { id: 4, name: "产品研发部经理", desc: "" },
+            { id: 5, name: "产品研发部员工", desc: "" },
+        ],
+    };
+    Mock.mock("/job/list", "get", mockData);
+})();
+
 /* 用户列表
 params: null*/
 (function () {
@@ -172,7 +189,7 @@ params: null*/
         code: 0,
         codeText: "OK",
         // 随机生成15-30个数组元素
-        "data|10-15": [
+        "data|5-8": [
             {
                 "id|+1": 0,
                 name: "@cname",
@@ -222,5 +239,17 @@ params:
         code: 0,
         codeText: "OK",
     };
-    Mock.mock("/user/delete", "post", mockData);
+    let url = /^\/user\/delete\?userId=/;
+    Mock.mock(url, "get", mockData);
+})();
+
+/* 修改用户信息
+params:
+    userId=1&name=xxx&sex=0&email=xxx&phone=xxx&departmentId=1&jobId=1&desc=xxx */
+(function () {
+    let mockData = {
+        code: 0,
+        codeText: "OK",
+    };
+    Mock.mock("/user/update", "post", mockData);
 })();
