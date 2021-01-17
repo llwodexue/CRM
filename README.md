@@ -12,7 +12,7 @@
 ## Mock
 
 - 使用mock拦截接口并随机渲染数据
-- 详见：mok/mok.js
+- 详见：mock/mock.js
 
 ### 员工列表
 
