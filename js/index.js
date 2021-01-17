@@ -1,6 +1,6 @@
 // 登录和退出
 (function () {
-    // 登录
+    // 校验当前用户是否非法进入
     axios.get("/user/login").then((res) => {
         let { code } = res;
         if (code !== 0) {
@@ -12,8 +12,7 @@
             return;
         }
     });
-    $(".baseBox span").html(`您好：${decodeURIComponent(localStorage.account)}`
-    );
+    $(".baseBox span").html(`您好：${decodeURIComponent(localStorage.account)}`);
     // 退出
     $(".baseBox a").click(() => {
         axios.get("/user/signout").then((res) => {
@@ -23,6 +22,7 @@
                     handled() {
                         localStorage.removeItem("power");
                         localStorage.removeItem("account");
+                        localStorage.removeItem("user");
                         location.href = "login.html";
                     },
                 });
@@ -51,7 +51,7 @@
     computed();
 
     // 根据权限对左侧菜单进行渲染
-    let power = decodeURIComponent(localStorage.getItem("power"));
+    let power = decodeURIComponent(localStorage.getItem("power")) || "";
     let str = ``;
     axios
         .get("/user/router")
@@ -96,6 +96,7 @@
                 $organize = $itemBox.filter(":lt(3)"),
                 $customer = $itemBox.eq(3);
             let index = 0;
+            // 如果是0，就让第一大组模块显示；如果是1，就让第二大组模块显示
             function showMenu(index) {
                 if (index == 0) {
                     $organize.css("display", "block");

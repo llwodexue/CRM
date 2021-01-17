@@ -1,3 +1,5 @@
+// 存放随机生成的数据
+
 let userListModule = (function () {
     let $deleteAll = $(".deleteAll"),
         $selectBox = $(".selectBox"),
@@ -6,6 +8,8 @@ let userListModule = (function () {
         $thead = $("thead"),
         $th = $thead.find("th");
     let power = decodeURIComponent(localStorage.getItem("power"));
+    // 存放随机生成的数据
+    let dataArr = null;
     // 校验权限
     let checkPower = () => {
         // 登录
@@ -15,16 +19,16 @@ let userListModule = (function () {
                 return rej();
             }
             if (!power.includes("userhandle")) {
-                $deleteAll.remove();
-                $th.first().remove();
-                $th.last().remove();
+                $deleteAll.remove(); // 移除批量删除按钮
+                $th.first().remove(); // 移除复选框
+                $th.last().remove(); // 移除操作按钮
             }
         });
     };
 
     // 渲染下拉框
     let bindSelect = () => {
-        return axios.get("/department/list", "get").then((res) => {
+        return axios.get("/department/list").then((res) => {
             let { data, code } = res;
             if (code == 0) {
                 let str = `<option value="0">全部</option>`;
@@ -36,8 +40,7 @@ let userListModule = (function () {
             }
         });
     };
-    // 存放随机生成的数据
-    let dataArr = null;
+
     let render = (data) => {
         let str = ``;
         data.forEach((item) => {
@@ -78,14 +81,22 @@ let userListModule = (function () {
         return axios.get("/user/list").then((res) => {
             let { code, data } = res;
             if (code == 0) {
-                dataArr = data;
-                render(data);
+                // 查看localStorage是否有user
+                let user = localStorage.getItem("user");
+                if (user) {
+                    dataArr = JSON.parse(user);
+                } else {
+                    // 存放随机生成的数据
+                    dataArr = data;
+                    localStorage.setItem("user", JSON.stringify(dataArr));
+                }
+                render(dataArr);
             } else {
                 $tbody.html("");
             }
         });
     };
-    // 重新渲染用户列表
+    // 模糊搜索 重新渲染用户列表
     let renderRefresh = () => {
         let depart = $selectBox.val();
         let search = $searchInp.val().trim();
@@ -145,12 +156,13 @@ let userListModule = (function () {
                         dataArr = dataArr.filter((item) => {
                             return String(item.id) != userId;
                         });
+                        localStorage.setItem("user", JSON.stringify(dataArr));
                         render(dataArr);
                     },
                 });
                 return;
             }
-            alert("删除失败");
+            alert("删除失败，请重试");
         });
     };
     // 批量删除接口
@@ -169,12 +181,13 @@ let userListModule = (function () {
                         dataArr = dataArr.filter((item) => {
                             return !paramUser.includes(String(item.id));
                         });
+                        localStorage.setItem("user", JSON.stringify(dataArr));
                         render(dataArr);
                     },
                 });
                 return;
             }
-            alert("批量删除失败");
+            alert("批量删除失败，请重试");
         });
     };
 
@@ -222,6 +235,7 @@ let userListModule = (function () {
         // tbody点击事件
         everyCheck.click(function () {
             let flag = true;
+            // 循环查看每一行复选框的状态
             $(this).prop("checked", $(this).prop("checked"));
             everyCheck.each((index, item) => {
                 if (!$(item).prop("checked")) {
