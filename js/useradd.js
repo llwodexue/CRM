@@ -139,7 +139,9 @@ let userAddModule = (function () {
             (async function () {
                 let userId = location.href.queryURLParams().userId || "";
                 await bindList();
-                if (userId) await userInfo(userId);
+                if (userId || userId === 0) {
+                    await userInfo(userId);
+                }
                 $userName.on("blur", checkUserName);
                 $userEmail.on("blur", checkEmail);
                 $userPhone.on("blur", checkPhone);

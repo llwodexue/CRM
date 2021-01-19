@@ -203,8 +203,8 @@
     params:
         userId=1 */
     let deleteUser = success();
-    let urlDel = /^\/user\/delete\?userId=/;
-    Mock.mock(urlDel, "get", deleteUser);
+    let urlDelUser = /^\/user\/delete\?userId=/;
+    Mock.mock(urlDelUser, "get", deleteUser);
 
     /* 修改用户信息
     params:
@@ -263,4 +263,61 @@
         return success();
     };
     Mock.mock("/user/add", "post", userAdd);
+
+    /* 获取客户列表
+    params:
+        lx=my&type=''&search=''&limit=10&page=1*/
+    let customerArr = [
+        {
+            "id|+1": 0,
+            name: "@cname",
+            "sex|1": [0, 1],
+            email: "@email",
+            phone: /^1[3-9]\d{9}$/,
+            weixin: /^1[3-9]\d{9}$/,
+            QQ: /^[1-9]\d{4,11}$/,
+            "type|1": ["重点客户", "一般客户", "放弃客户"],
+            address: "@city(true)",
+            userName: "@cname",
+        },
+    ];
+    let customerList = success({ "data|90": customerArr });
+    let urlCustomer = /^\/customer\/list\?lx=/;
+    Mock.mock(urlCustomer, "get", customerList);
+
+    /* 客户类型
+    params: null*/
+    let customerTypeArr = [
+        { id: 1, name: "重点客户" },
+        { id: 2, name: "一般客户" },
+        { id: 3, name: "放弃客户" },
+    ];
+    let customerTypeList = success({ data: customerTypeArr });
+    Mock.mock("/customer/type", "get", customerTypeList);
+
+    /* 获取客户详细信息
+    params:
+        customerId=1 */
+    let customerInfoArr = {
+        id: "@integer",
+        name: "@cname",
+        "sex|1": [0, 1],
+        email: "@email",
+        phone: /^1[3-9]\d{9}$/,
+        weixin: /^1[3-9]\d{9}$/,
+        QQ: /^[1-9]\d{4,11}$/,
+        "type|1": [1, 2, 3],
+        address: "@city(true)",
+        userName: "@cname",
+    };
+    let customerInfoList = success({ data: customerInfoArr });
+    let urlCustomerInfo = /^\/customer\/info\?customerId=/;
+    Mock.mock(urlCustomerInfo, "get", customerInfoList);
+
+    /* 删除客户
+    params:
+        userId=1 */
+        let deleteCustomer = success();
+        let urlDelCustomer = /^\/customer\/delete\?customerId=/;
+        Mock.mock(urlDelCustomer, "get", deleteCustomer);
 })();

@@ -19,14 +19,14 @@
 				<span>用户名</span>
 				<input type="text" class="username">
 			</div>
-			<span></span>
+			<span class="spanusername"></span>
 		</div>
 
 		<div class="form">
 			<div class="inpBox">
 				<span>性别</span>
-				<input type="radio" name="sex" checked><label for="">男</label>
-				<input type="radio" name="sex"><label for="">女</label>
+				<input type="radio" name="sex" id="man" checked><label for="man">男</label>
+				<input type="radio" name="sex" id="woman"><label for="woman">女</label>
 			</div>
 			<span></span>
 		</div>
@@ -36,7 +36,7 @@
 				<span>邮箱</span>
 				<input type="text" class="useremail">
 			</div>
-			<span></span>
+			<span class="spanuseremail"></span>
 		</div>
 
 		<div class="form">
@@ -44,7 +44,7 @@
 				<span>电话</span>
 				<input type="text" class="userphone">
 			</div>
-			<span></span>
+			<span class="spanuserphone"></span>
 		</div>
 
 		<div class="form">
@@ -52,7 +52,7 @@
 				<span>QQ</span>
 				<input type="text" class="userqq">
 			</div>
-			<span></span>
+			<span class="spanuserqq"></span>
 		</div>
 
 		<div class="form">
@@ -60,16 +60,16 @@
 				<span>微信</span>
 				<input type="text" class="userweixin">
 			</div>
-			<span></span>
+			<span class="spanuserweixin"></span>
 		</div>
 
 		<div class="form">
 			<div class="inpBox">
 				<span>类型</span>
-				<select>
-					<option value="重点客户">重点客户</option>
+				<select class="customertype">
+					<!-- <option value="重点客户">重点客户</option>
 					<option value="一般客户">一般客户</option>
-					<option value="放弃客户">放弃客户</option>
+					<option value="放弃客户">放弃客户</option> -->
 				</select>
 			</div>
 			<span></span>
@@ -78,7 +78,7 @@
 		<div class="form">
 			<div class="inpBox">
 				<span>客户地址</span>
-				<textarea></textarea>
+				<textarea class="customeraddress"></textarea>
 			</div>
 			<span></span>
 		</div>
@@ -88,6 +88,11 @@
 	<!-- IMPORT JS -->
 	<script src="../dependences/jquery.min.js"></script>
 	<script src="../dependences/axios.min.js"></script>
+	<script src="../dependences/mock-min.js"></script>
+	<script src="../utils/utils.js"></script>
+	<script src="../mock/mock.js"></script>
+	<script src="../js/axios.defaults.js"></script>
+	<script src="../js/customeradd.js"></script>
 </body>
 
 </html>

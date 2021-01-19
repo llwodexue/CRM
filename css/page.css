@@ -222,6 +222,7 @@
 }
 
 .pageBox a,
+.pageBox span,
 .pageBox .pageNum,
 .pageBox .pageNum li {
 	display: inline-block;
@@ -238,4 +239,8 @@
 .pageBox .pageNum li.active {
 	color: #29E;
 	font-weight: bold;
+}
+
+.pageBox span input{
+    width: 20px;
 }
