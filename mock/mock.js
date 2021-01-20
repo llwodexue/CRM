@@ -317,7 +317,35 @@
     /* 删除客户
     params:
         userId=1 */
-        let deleteCustomer = success();
-        let urlDelCustomer = /^\/customer\/delete\?customerId=/;
-        Mock.mock(urlDelCustomer, "get", deleteCustomer);
+    let deleteCustomer = success();
+    let urlDelCustomer = /^\/customer\/delete\?customerId=/;
+    Mock.mock(urlDelCustomer, "get", deleteCustomer);
+
+    /* 获取回访记录信息
+    params:
+        customerId=xxx */
+    let visitListArr = [
+        {
+            "id|+1": 0,
+            "customerId|+1": 0,
+            visitText: "@cparagraph(1)",
+            visitTime: "@date",
+        },
+    ];
+    visitList = success({ "data|3-7": visitListArr });
+    visitListUrl = /^\/visit\/list?customerId=/;
+    Mock.mock("", "get", visitList);
+
+    /* 删除回访记录
+    params:
+        userId=1 */
+    let deleteVisit = success();
+    let urlDelVisit = /^\/visit\/delete\?visitId=/;
+    Mock.mock(urlDelVisit, "get", deleteVisit);
+
+    /* 增加回访信息
+    params:
+        customerId=xxx&visitText=xxx&visitTime=xxx */
+    let addVisit = success();
+    Mock.mock("/visit/add", "post", addVisit);
 })();
